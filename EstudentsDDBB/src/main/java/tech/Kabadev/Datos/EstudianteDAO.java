@@ -3,7 +3,7 @@ package tech.Kabadev.Datos;
 import tech.Kabadev.Dominio.Estudiante;
 
 import static tech.Kabadev.conexion.Conexion.getConexion;
-
+---+++
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,6 +45,16 @@ public class EstudianteDAO {
             System.out.println("Estudiante modificado: " + estudianteModificar);
         } else {
             System.out.println("No se modificó estudiante: " + estudianteModificar);
+        }
+
+        // Eliminar estudiante
+        var estudianteEliminar = new Estudiante(3);
+        var eliminado = estudianteDao.eliminarEstudiante(estudianteEliminar);
+        if (eliminado) {
+            System.out.println("Estudiante eliminado: " + estudianteEliminar);
+        } else {
+            System.out.println("No se eliminó el estudiante: " + estudianteEliminar);
+            System.out.println("Listado de estudiantes: " + estudianteDao.listarEstudiantes());
         }
     }
 
@@ -157,6 +167,27 @@ public class EstudianteDAO {
             return true; // Error corregido: Añadido retorno de true si la operación es exitosa
         } catch (Exception e) {
             System.out.println("Error al modificar estudiante: " + e.getMessage());
+        } finally {
+            try {
+                con.close();
+            } catch (Exception e) {
+                System.out.println("Error al cerrar conexión: " + e.getMessage());
+            }
+        }
+        return false;
+    }
+
+    public boolean eliminarEstudiante(Estudiante estudiante) {
+        PreparedStatement ps;
+        Connection con = getConexion();
+        String sql = "DELETE FROM estudiante WHERE id_estudiante = ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, estudiante.getIdEstudiante());
+            ps.execute();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al eliminar estudiante: " + e.getMessage());
         } finally {
             try {
                 con.close();
