@@ -15,10 +15,9 @@ public class Conexion {
         //VARIABLE DE DIRECCIÓN
         var url = "jdbc:mysql://localhost:3306/" + baseDatos;
         //nombre usuario de la BBDD
-
-        var usuario = "kabalera";
+        var usuario = "user";
         //contraseña de mysql;
-        var password = "221182";
+        var password = "0000";
         // Cargamos la clase del driver de mysql en memoria
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
